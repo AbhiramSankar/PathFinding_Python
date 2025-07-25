@@ -3,56 +3,58 @@ import heapq
 from algorithms.base import PathfindingAlgorithm
 
 class AStar(PathfindingAlgorithm):
-    def __init__(self, grid, start=None, goal=None):
-        super().__init__(grid, start, goal)
-
     def heuristic(self, node):
         gx, gy = self.goal
         dx = gx - node.x
         dy = gy - node.y
         dh = self.grid.get_height(gx, gy) - node.height
-        return math.sqrt(dx * dx + dy * dy + dh * dh)
+        return math.sqrt(dx*dx + dy*dy + dh*dh)
 
     def find_path(self):
-        start_node = self.grid.get_node(*self.start)
-        goal_node = self.grid.get_node(*self.goal)
-
-        # Initialize costs
+        # Reset nodes
         for row in self.grid.nodes:
             for n in row:
                 n.g = float('inf')
+                n.h = 0.0
+                n.f = float('inf')
                 n.parent = None
 
-        start_node.g = 0
-        open_list = []
-        heapq.heappush(open_list, (0 + self.heuristic(start_node), start_node))
+        start_node = self.grid.get_node(*self.start)
+        goal_node  = self.grid.get_node(*self.goal)
 
-        while open_list:
-            _, current = heapq.heappop(open_list)
+        start_node.g = 0.0
+        start_node.h = self.heuristic(start_node)
+        start_node.f = start_node.h
 
+        open_set = [(start_node.f, start_node)]
+        closed  = set()
+
+        while open_set:
+            _, current = heapq.heappop(open_set)
             if (current.x, current.y) == self.goal:
-                return self.extract_path(current)
+                path = []
+                while current:
+                    path.append((current.x, current.y))
+                    current = current.parent
+                return path[::-1]
 
-            for neighbor in self.grid.neighbors(current):
-                tentative_g = current.g + self.cost(current, neighbor)
-                if tentative_g < neighbor.g:
-                    neighbor.g = tentative_g
-                    neighbor.parent = current
-                    f_score = tentative_g + self.heuristic(neighbor)
-                    heapq.heappush(open_list, (f_score, neighbor))
+            closed.add((current.x, current.y))
 
-        return []  # No path found
+            for nbr in self.grid.neighbors(current):
+                if (nbr.x, nbr.y) in closed:
+                    continue
+                dz = nbr.height - current.height
+                dist = math.sqrt((nbr.x-current.x)**2 + (nbr.y-current.y)**2 + dz*dz)
+                tentative_g = current.g + dist
 
-    def extract_path(self, node):
-        path = []
-        while node:
-            path.append((node.x, node.y))
-            node = node.parent
-        return path[::-1]
+                if tentative_g < nbr.g:
+                    nbr.parent = current
+                    nbr.g = tentative_g
+                    nbr.h = self.heuristic(nbr)
+                    nbr.f = nbr.g + nbr.h
+                    heapq.heappush(open_set, (nbr.f, nbr))
 
-    def cost(self, a, b):
-        dz = b.height - a.height
-        return math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2 + dz * dz)
+        return []
 
 def find_path(grid, start=None, goal=None):
     return AStar(grid, start, goal).find_path()
