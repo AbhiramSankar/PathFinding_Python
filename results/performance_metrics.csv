@@ -1,0 +1,11 @@
+Algorithm,Time (s),Path Length,Path Cost,Reached Goal
+A*,0.0116,59,59.17,Yes
+AD*,0.0081,59,60.46,Yes
+Dijkstra,0.0081,59,59.17,Yes
+GA,0.4342,61,63.76,Yes
+SA,0.1143,75,78.49,Yes
+A*,0.0094,59,59.38,Yes
+AD*,0.006,59,61.02,Yes
+Dijkstra,0.0073,59,59.38,Yes
+GA,0.3743,73,77.33,Yes
+SA,0.0965,103,113.23,No
