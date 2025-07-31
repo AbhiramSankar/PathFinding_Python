@@ -7,46 +7,9 @@ from environment.grid import Grid
 from algorithms import astar, adstar, dijkstra, genetic, simulated_annealing
 from utils.metrics import path_cost
 from utils.logger import log_results_csv, log_convergence_csv
-from visualization import pygame_vis, matplotlib_vis
+from ui import pygame_vis, matplotlib_vis
 from utils.logger import plot_performance_metrics, plot_convergence
 
-
-def main():
-    parser = argparse.ArgumentParser(description="Pathfinding Optimization")
-    parser.add_argument(
-        "--algo",
-        choices=["astar", "dijkstra", "ga", "sa"],
-        default="astar",
-        help="Which algorithm to run"
-    )
-    parser.add_argument(
-        "--vis",
-        choices=["pygame", "matplotlib"],
-        default="matplotlib",
-        help="Which visualization backend to use"
-    )
-    args = parser.parse_args()
-
-    grid = Grid()
-
-    if args.algo == "astar":
-        path = astar.find_path(grid)
-    elif args.algo == "dijkstra":
-        path = dijkstra.find_path(grid)
-    elif args.algo == "ga":
-        path = genetic.find_path(grid)
-    else:  # sa
-        path = simulated_annealing.find_path(grid)
-
-    if not path:
-        print("No path found.")
-        return
-
-    if args.vis == "pygame":
-        pygame_vis.display(grid, path)
-    else:
-        matplotlib_vis.animate(grid, path)
-        
 def run_all():
     grid = Grid()
     results = {}

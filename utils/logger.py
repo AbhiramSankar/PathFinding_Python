@@ -15,13 +15,28 @@ def log_results_csv(filepath, results):
         writer.writerows(results)
 
 def log_convergence_csv(filepath, values, algo_name):
-    import csv
     with open(filepath, mode='w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(["Iteration", "Best Cost", "Algorithm"])
         for i, val in enumerate(values):
             writer.writerow([i, val, algo_name])
-            
+
+# Log computing power
+def log_computing_power(filepath, algo_name, time_sec, work_units):
+    ops = work_units / time_sec if time_sec > 0 else 0
+    row = {
+        "Algorithm": algo_name,
+        "Time (s)": round(time_sec, 4),
+        "Work Units": work_units,
+        "OPS": round(ops, 2)
+    }
+    file_exists = os.path.exists(filepath)
+    with open(filepath, mode='a', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=row.keys())
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(row)
+
 def plot_performance_metrics(csv_path="results/performance_metrics.csv"):
     df = pd.read_csv(csv_path)
 
@@ -30,42 +45,64 @@ def plot_performance_metrics(csv_path="results/performance_metrics.csv"):
     plt.bar(df["Algorithm"], df["Time (s)"], color='skyblue')
     plt.title("Execution Time by Algorithm")
     plt.ylabel("Time (seconds)")
-    plt.xlabel("Algorithm")
     plt.grid(True, axis='y')
     plt.tight_layout()
     plt.savefig("results/execution_time.png")
 
-    # Path Cost
+    # Path Cost with elevation
     plt.figure(figsize=(8, 5))
-    plt.bar(df["Algorithm"], df["Path Cost"], color='lightcoral')
-    plt.title("Path Cost by Algorithm")
+    plt.bar(df["Algorithm"], df["Path Cost (elevation)"], color='lightcoral')
+    plt.title("Path Cost by Algorithm (with Elevation)")
     plt.ylabel("Cost")
-    plt.xlabel("Algorithm")
     plt.grid(True, axis='y')
     plt.tight_layout()
     plt.savefig("results/path_cost.png")
 
-    # Path Length
+    # Path Length in 3D
     plt.figure(figsize=(8, 5))
-    plt.bar(df["Algorithm"], df["Path Length"], color='mediumseagreen')
-    plt.title("Path Length by Algorithm")
-    plt.ylabel("Number of Steps")
-    plt.xlabel("Algorithm")
+    plt.bar(df["Algorithm"], df["Path Length (3D)"], color='mediumseagreen')
+    plt.title("Path Length by Algorithm (3D)")
+    plt.ylabel("Distance")
     plt.grid(True, axis='y')
     plt.tight_layout()
     plt.savefig("results/path_length.png")
+
+# Plot computing power
+def plot_computing_power(csv_path="results/computing_power.csv"):
+    df = pd.read_csv(csv_path)
+    plt.figure(figsize=(8, 5))
+    plt.bar(df["Algorithm"], df["OPS"], color=['cyan', 'yellow', 'magenta', 'orange', 'green'])
+    plt.title("Computing Power (OPS)")
+    plt.ylabel("Operations per Second")
+    plt.grid(True, axis='y')
+    plt.tight_layout()
+    plt.savefig("results/computing_power.png")
+    plt.show()
 
 def plot_convergence(ga_csv="results/ga_convergence.csv", sa_csv="results/sa_convergence.csv"):
     ga_df = pd.read_csv(ga_csv)
     sa_df = pd.read_csv(sa_csv)
 
+    # GA Convergence
     plt.figure(figsize=(10, 6))
     plt.plot(ga_df["Iteration"], ga_df["Best Cost"], label="GA", color="magenta", linewidth=2)
-    plt.plot(sa_df["Iteration"], sa_df["Best Cost"], label="SA", color="orange", linewidth=2)
-    plt.title("Convergence of GA and SA")
+    plt.title("Genetic Algorithm Convergence")
     plt.xlabel("Iteration")
     plt.ylabel("Best Path Cost")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig("results/convergence_plot.png")
+    plt.savefig("results/ga_convergence_plot.png")
+    plt.show()
+
+    # SA Convergence
+    plt.figure(figsize=(10, 6))
+    plt.plot(sa_df["Iteration"], sa_df["Best Cost"], label="SA", color="orange", linewidth=2)
+    plt.title("Simulated Annealing Convergence")
+    plt.xlabel("Iteration")
+    plt.ylabel("Best Path Cost")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig("results/sa_convergence_plot.png")
+    plt.show()

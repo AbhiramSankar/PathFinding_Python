@@ -4,7 +4,7 @@ import config
 from utils.metrics import path_cost
 
 # Direction vectors: up, right, down, left
-DIRECTIONS = [(0,-1), (1,0), (0,1), (-1,0)]
+DIRECTIONS = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
 def random_solution(length):
     return [random.randrange(len(DIRECTIONS)) for _ in range(length)]
@@ -26,7 +26,7 @@ def decode_path(ind, grid, start, goal):
 
 def cost(ind, grid, start, goal):
     path = decode_path(ind, grid, start, goal)
-    c = path_cost(path, grid)
+    c = path_cost(path, grid)  # ✅ elevation-aware cost
     if path[-1] != goal:
         gx, gy = goal
         lx, ly = path[-1]
@@ -40,7 +40,7 @@ def find_path(grid, start=None, goal=None):
     if goal is None:
         goal = config.GOAL
 
-    length = config.MAX_STEPS_GA
+    length = config.MAX_STEPS_SA
     current = random_solution(length)
     curr_cost, curr_path = cost(current, grid, start, goal)
     best = current[:]
@@ -49,6 +49,7 @@ def find_path(grid, start=None, goal=None):
 
     T = config.TEMPERATURE
     history = []  # per-iteration best cost
+    iterations = 0
 
     while T > config.MIN_TEMPERATURE:
         neighbor = current[:]
@@ -68,5 +69,18 @@ def find_path(grid, start=None, goal=None):
 
         history.append(curr_cost)
         T *= config.COOLING_RATE
+        # if delta > 0:
+        #     T *= 0.99
+        # else:
+        #     T *= 0.995
+        iterations += 1  # Count as one work unit
 
-    return best_path, history
+    # work_units = number of iterations
+    work_units = iterations
+
+    return best_path, history, work_units
+
+
+# Wrapper remains for compatibility
+def find_path_wrapper(grid, start=None, goal=None):
+    return find_path(grid, start, goal)

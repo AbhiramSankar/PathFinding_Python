@@ -6,6 +6,7 @@ class Node:
     y: int
     height: float = 0.0
     is_obstacle: bool = False
+    is_static_obs: bool = False
     g: float = field(default=float('inf'), init=False)
     h: float = field(default=0.0, init=False)
     f: float = field(default=float('inf'), init=False)

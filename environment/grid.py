@@ -15,23 +15,29 @@ class Grid:
         if config.USE_HEIGHT_MAP:
             heights = load_heightmap()
         else:
-            heights = [[0.0]*self.width for _ in range(self.height)]
+            # If no heightmap is used, generate random heights
+            heights = [[random.uniform(0.0, 1.0) for _ in range(self.width)] for _ in range(self.height)]
 
         for y in range(self.height):
             for x in range(self.width):
                 h = heights[y][x]
-                # Never place obstacle on start or goal
                 is_obs = (
                     random.random() < config.OBSTACLE_DENSITY
-                    and (x, y) not in (config.START, config.GOAL)
+                    and (x, y) not in (config.START, config.GOAL) # Never place obstacle on start or goal  
                 )
-                self.nodes[y][x] = Node(x, y, h, is_obs)
+                self.nodes[y][x] = Node(x, y, h, is_obs, is_obs)
+
+        #Ensure START and GOAL heights are 0.0
+        sx, sy = config.START
+        gx, gy = config.GOAL
+        self.nodes[sy][sx].height = 0.0
+        self.nodes[gy][gx].height = 0.0
 
     def get_node(self, x, y):
         return self.nodes[y][x]
 
     def neighbors(self, node):
-        dirs = [(0,-1),(1,0),(0,1),(-1,0)]
+        dirs = [(0, -1), (1, 0), (0, 1), (-1, 0)]
         result = []
         for dx, dy in dirs:
             nx, ny = node.x + dx, node.y + dy
