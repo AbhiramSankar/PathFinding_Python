@@ -12,9 +12,6 @@ This project compares traditional algorithms (A*, Dijkstra, AD*) with metaheuris
 - **Visualization:** Real-time simulation using **Pygame**.
 - **Performance metrics:** Path cost, computation time, convergence history.
 
-$ ./tree-md .
-# Project Structure
-.
  * [tree-md](./tree-md)
  * [dir2](./dir2)
    * [file21.ext](./dir2/file21.ext)
@@ -29,8 +26,8 @@ $ ./tree-md .
 ## Project Structure
 $ tree
 .
-└── PathFinding_Python
-    ├── README.md # Project documentation
+* [PathFinding_Python]
+  * [README.md] (./README.md) # Project documentation
     ├── requirements.txt # Python dependencies
     ├── main.py # DEPRICATED - Entry point for the program
     ├── dy_main.py # Entry point for the program
