@@ -34,7 +34,7 @@ This project compares traditional algorithms (A*, Dijkstra, AD*) with metaheuris
     * [dynamic_vis.py](./ui/dynamic_vis.py)         # Dynamic environment and Core Pygame rendering visualization
     * [matplotlib_vis.py](./ui/matplotlib_vis.py)   # DEPRICATED - Mathplot environment for visualization
     * [obstacles.py](./ui/obstacles.py)             # Dynamic obstacle generation and handling
-    * [pygame_vis.py](./ui/pygame_vis.py)           # DEPRICATED - DEPRICATED - Previous Pygame rendering logic
+    * [pygame_vis.py](./ui/pygame_vis.py)           # DEPRICATED - Previous Pygame rendering logic
 
 * [utils](./utils/)
     * [logger.py](./utils/logger.py)                # Logs performance and results to CSV
