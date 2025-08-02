@@ -13,17 +13,17 @@ This project compares traditional algorithms (A*, Dijkstra, AD*) with metaheuris
 - **Performance metrics:** Path cost, computation time, convergence history.
 
 ## Project Structure
-pathfinding-optimization
-├── README.md # Project documentation
-├── requirements.txt # Python dependencies
-├── main.py # DEPRICATED - Entry point for the program
-├── dy_main.py # Entry point for the program
-├── config.py # Global settings and hyperparameters
-│ ├── algorithms/ # A*, Dijkstra, AD*, GA, SA, SSA
-│ ├── ui/ # Pygame visualization
-│ ├── utils/ # Metrics, path cost functions
-│ ├── environment/ # Grid elements genration function
-│ ├── results/ # Results and demo
+ ── pathfinding-optimization
+  ├── README.md # Project documentation
+  ├── requirements.txt # Python dependencies
+  ├── main.py # DEPRICATED - Entry point for the program
+  ├── dy_main.py # Entry point for the program
+  ├── config.py # Global settings and hyperparameters
+  │ ├── algorithms/ # A*, Dijkstra, AD*, GA, SA, SSA
+  │ ├── ui/ # Pygame visualization
+  │ ├── utils/ # Metrics, path cost functions
+  │ ├── environment/ # Grid elements genration function
+  │ ├── results/ # Results and demo
 
 ## Requirements
 - Python 3.8+
@@ -33,7 +33,7 @@ pathfinding-optimization
 
 Clone the repository:
 ```bash
-git clone https://github.com/<your-username>/pathfinding-optimization.git
+git clone https://github.com/<your-username>/pathfinding-optimization.git](https://github.com/AbhiramSankar/PathFinding_Python.git
 cd pathfinding-optimization
 ```
 Install dependencies:
