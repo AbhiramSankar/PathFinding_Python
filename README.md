@@ -2,7 +2,7 @@
 This project compares traditional algorithms (A*, Dijkstra, AD*) with metaheuristic approaches (GA, SA, SSA) for dynamic pathfinding on a grid with moving obstacles.
 
 ## Demo
-[▶ Watch Full Demo Video]([https://drive.google.com/file/d/1xODoXItp6612zYDm5g8c7n9GoGSgWYcF/view?usp=sharing](https://drive.google.com/file/d/1nTeBKO5JrgagV_4PknOpedDLrDVqDrl5/view?usp=sharing))
+[▶ Watch Full Demo Video](https://drive.google.com/file/d/1nTeBKO5JrgagV_4PknOpedDLrDVqDrl5/view?usp=sharing)
 
 ![Watch the demo](results/simulation_20250731_081004.gif)
 
